@@ -433,6 +433,149 @@ body {
 
 .dashboard,
 .funding-requests,
-.contributors {
+.contributors,
+.medical-record-manager,
+.mfa-system,
+.claim-engine,
+.payment-gateways {
   animation: fadeIn 0.6s ease-out;
+}
+
+/* Payment Gateway Specific Styles */
+.payment-gateways .bg-white {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.payment-gateways .shadow-xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+}
+
+.payment-gateways .hover\:shadow-md:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.payment-gateways .bg-slate-900 {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.payment-gateways .bg-slate-100 {
+  background: rgba(241, 245, 249, 0.82);
+}
+
+.payment-gateways .border-2 {
+    border-width: 2px;
+}
+
+.payment-gateways .letter-spacing-wide {
+    letter-spacing: 0.1em;
+}
+
+/* Better mobile padding for payments */
+@media (max-width: 640px) {
+    .payment-gateways {
+        padding: 1rem;
+    }
+}
+
+/* Claim Engine Specific Styles */
+.claim-engine .bg-white {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.claim-engine table {
+  background: transparent;
+}
+
+.claim-engine tr:last-child td {
+  border-bottom: none;
+}
+
+.claim-engine .shadow-xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+}
+
+.claim-engine .bg-gray-900 {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.claim-engine .animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* MFA System Specific Styles */
+.mfa-system .bg-white {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.mfa-system .transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-indicator {
+  transition: transform 0.3s ease;
+}
+
+/* Multi-factor Authenticator Grid Animation */
+.grid.gap-4 button {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.grid.gap-4 button:hover {
+  transform: translateX(5px);
+}
+
+/* Glassmorphism for MFA Wizard */
+.fixed.inset-0.bg-gray-900\/40 {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+/* Custom Checkbox/Radio styling simulation */
+.mfa-system .rounded-xl:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Medical Record Manager Specific Styles */
+.upload-zone {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 2px dashed #667eea;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.upload-zone:hover {
+  border-color: #764ba2;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+.record-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.record-card:hover {
+  border-color: #667eea;
+}
+
+/* Glassmorphism for Modals */
+.fixed.inset-0 {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+/* Responsive improvements for records */
+@media (max-width: 640px) {
+  .medical-record-manager {
+    padding: 1rem;
+  }
 }

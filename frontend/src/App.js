@@ -15,9 +15,18 @@ import {
   AlertCircle,
   UserPlus,
   FileText,
-  Award
+  Award,
+  Database,
+  Lock,
+  Cpu,
+  CreditCard as CreditIcon
 } from 'lucide-react';
 import './App.css';
+import MedicalRecordManager from './components/MedicalRecordManager';
+import MFASystem from './components/MFASystem';
+import ClaimEngine from './components/ClaimEngine';
+import PaymentGateways from './components/PaymentGateways';
+import PatientDashboard from './components/PatientDashboard';
 
 // Contract ABIs (simplified for demo)
 const HEALTHCARE_DRIPS_ABI = [
@@ -44,6 +53,9 @@ function App() {
   const [fundingRequests, setFundingRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Contract addresses (would come from deployment.json)
   const CONTRACT_ADDRESS = "0x..."; // Replace with actual address
@@ -128,58 +140,64 @@ function App() {
     }
   };
 
-  const Dashboard = () => (
-    <div className="dashboard">
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">
-            <TrendingUp className="w-6 h-6" />
+  const Dashboard = () => {
+    if (isAuthenticated && user) {
+      return <PatientDashboard user={user} token={token} />;
+    }
+    
+    return (
+      <div className="dashboard">
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <div className="stat-content">
+              <h3>Active Premium Drips</h3>
+              <p className="stat-number">{premiumDrips.length}</p>
+            </div>
           </div>
-          <div className="stat-content">
-            <h3>Active Premium Drips</h3>
-            <p className="stat-number">{premiumDrips.length}</p>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <DollarSign className="w-6 h-6" />
+            </div>
+            <div className="stat-content">
+              <h3>Monthly Premium</h3>
+              <p className="stat-number">$500</p>
+            </div>
+          </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <Calendar className="w-6 h-6" />
+            </div>
+            <div className="stat-content">
+              <h3>Next Payment</h3>
+              <p className="stat-number">Dec 15, 2024</p>
+            </div>
+          </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <Shield className="w-6 h-6" />
+            </div>
+            <div className="stat-content">
+              <h3>Coverage Status</h3>
+              <p className="stat-number active">Active</p>
+            </div>
           </div>
         </div>
-        
-        <div className="stat-card">
-          <div className="stat-icon">
-            <DollarSign className="w-6 h-6" />
-          </div>
-          <div className="stat-content">
-            <h3>Monthly Premium</h3>
-            <p className="stat-number">$500</p>
-          </div>
-        </div>
-        
-        <div className="stat-card">
-          <div className="stat-icon">
-            <Calendar className="w-6 h-6" />
-          </div>
-          <div className="stat-content">
-            <h3>Next Payment</h3>
-            <p className="stat-number">Dec 15, 2024</p>
-          </div>
-        </div>
-        
-        <div className="stat-card">
-          <div className="stat-icon">
-            <Shield className="w-6 h-6" />
-          </div>
-          <div className="stat-content">
-            <h3>Coverage Status</h3>
-            <p className="stat-number active">Active</p>
-          </div>
-        </div>
-      </div>
 
-      <div className="action-section">
-        <button onClick={createPremiumDrip} disabled={loading} className="btn-primary">
-          <CreditCard className="w-4 h-4 mr-2" />
-          {loading ? 'Creating...' : 'Create Premium Drip'}
-        </button>
+        <div className="action-section">
+          <button onClick={createPremiumDrip} disabled={loading} className="btn-primary">
+            <CreditCard className="w-4 h-4 mr-2" />
+            {loading ? 'Creating...' : 'Create Premium Drip'}
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const FundingRequests = () => (
     <div className="funding-requests">
@@ -280,6 +298,34 @@ function App() {
               <Award className="w-4 h-4" />
               Contributors
             </button>
+            <button 
+              onClick={() => setActiveTab('records')}
+              className={activeTab === 'records' ? 'active' : ''}
+            >
+              <Database className="w-4 h-4" />
+              Records
+            </button>
+            <button 
+              onClick={() => setActiveTab('security')}
+              className={activeTab === 'security' ? 'active' : ''}
+            >
+              <Lock className="w-4 h-4" />
+              Security
+            </button>
+            <button 
+              onClick={() => setActiveTab('engine')}
+              className={activeTab === 'engine' ? 'active' : ''}
+            >
+              <Cpu className="w-4 h-4" />
+              Engine
+            </button>
+            <button 
+              onClick={() => setActiveTab('payments')}
+              className={activeTab === 'payments' ? 'active' : ''}
+            >
+              <CreditIcon className="w-4 h-4" />
+              Payments
+            </button>
           </nav>
           
           <div className="wallet-section">
@@ -310,6 +356,10 @@ function App() {
             {activeTab === 'dashboard' && <Dashboard />}
             {activeTab === 'funding' && <FundingRequests />}
             {activeTab === 'contributors' && <Contributors />}
+            {activeTab === 'records' && <MedicalRecordManager account={account} contract={contract} />}
+            {activeTab === 'security' && <MFASystem account={account} contract={contract} />}
+            {activeTab === 'engine' && <ClaimEngine account={account} contract={contract} />}
+            {activeTab === 'payments' && <PaymentGateways account={account} contract={contract} />}
           </>
         )}
       </main>

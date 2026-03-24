@@ -43,6 +43,13 @@ healthcare-drips/
 - **Emergency pause** functionality
 - **Stellar native token transfers**
 
+### 👥 **Enhanced Contributor Verification**
+- **KYC integration** with identity document verification
+- **Professional license verification** for healthcare credentials
+- **Reputation decay algorithm** (5% monthly for inactive contributors)
+- **Automated tier advancement** based on reputation thresholds
+- **Comprehensive audit trail** for all verification activities
+
 ### 👥 **Contributor Governance**
 - **Issue-based funding** for medical treatments
 - **Community voting** on claim approvals
